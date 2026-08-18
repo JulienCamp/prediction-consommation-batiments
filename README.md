@@ -2,6 +2,8 @@
 
 Application Streamlit construite à partir du projet OpenClassrooms consacré à la prédiction de la consommation des bâtiments non résidentiels de Seattle.
 
+**[Ouvrir la démonstration publique](https://conso-batiments-seattle.streamlit.app/)**
+
 Le démonstrateur utilise une variante compacte de 300 arbres, validée séparément du modèle d'étude à 1 500 arbres, afin de réduire le poids des artefacts et le temps de chargement.
 
 ## Fonctionnalités
