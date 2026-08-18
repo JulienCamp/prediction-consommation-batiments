@@ -9,15 +9,15 @@
   },
   "metrics": {
     "without_energy_star": {
-      "r2": 0.4695438393276776,
-      "mae_kbtu": 3574206.344169549,
-      "rmse_kbtu": 15109110.86248888,
-      "median_absolute_error_kbtu": 946905.2476666654
+      "r2": 0.4695438393276783,
+      "mae_kbtu": 3574206.344169547,
+      "rmse_kbtu": 15109110.862488871,
+      "median_absolute_error_kbtu": 946905.2476666803
     },
     "with_energy_star": {
-      "r2": 0.5153650270679839,
-      "mae_kbtu": 3298828.9483591192,
-      "rmse_kbtu": 14441806.926051542,
+      "r2": 0.515365027067984,
+      "mae_kbtu": 3298828.9483591174,
+      "rmse_kbtu": 14441806.92605154,
       "median_absolute_error_kbtu": 835483.8446583406
     }
   },
@@ -58,76 +58,80 @@
   },
   "profiles": [
     {
-      "label": "Petit bâtiment",
-      "description": "Other · 30 160 pi²",
+      "label": "Cas bien prédit",
+      "description": "Other · 2 294 m² · écart +0%",
       "source_energy_star_missing": true,
-      "observed_kbtu": 1184385.875,
+      "observed_kbtu": 1395016.125,
+      "relative_error": -0.0012358250163857778,
       "features": {
-        "OSEBuildingID": 23343,
-        "BuildingType": "NonResidential",
+        "OSEBuildingID": 33408,
+        "BuildingType": "Nonresidential COS",
         "PrimaryPropertyType": "Other",
         "CouncilDistrictCode": 5,
-        "Latitude": 47.72083,
-        "Longitude": -122.29979,
+        "Latitude": 47.71986,
+        "Longitude": -122.29809,
         "NumberofBuildings": 1.0,
         "NumberofFloors": 1,
-        "PropertyGFABuilding(s)": 30160,
+        "PropertyGFABuilding(s)": 24697,
         "ENERGYSTARScore": 71.0,
-        "NumberofPropertyUseTypes": 1,
-        "PropertyAge": 47,
-        "BuildingsProportion": 1.0,
-        "ElecProportion": 0.233876565969108,
-        "SteamProportion": 0.0,
-        "NaturalGasProportion": 0.766123434030892
-      }
-    },
-    {
-      "label": "Bâtiment intermédiaire",
-      "description": "Retail Store · 45 271 pi²",
-      "source_energy_star_missing": false,
-      "observed_kbtu": 2912179.5,
-      "features": {
-        "OSEBuildingID": 21397,
-        "BuildingType": "NonResidential",
-        "PrimaryPropertyType": "Retail Store",
-        "CouncilDistrictCode": 7,
-        "Latitude": 47.62399,
-        "Longitude": -122.33804,
-        "NumberofBuildings": 1.0,
-        "NumberofFloors": 2,
-        "PropertyGFABuilding(s)": 45271,
-        "ENERGYSTARScore": 57.0,
-        "NumberofPropertyUseTypes": 1,
-        "PropertyAge": 52,
-        "BuildingsProportion": 1.0,
-        "ElecProportion": 0.4490835680523212,
-        "SteamProportion": 0.0,
-        "NaturalGasProportion": 0.5509164319476788
-      }
-    },
-    {
-      "label": "Grand bâtiment énergivore",
-      "description": "Hotel · 66 990 pi²",
-      "source_energy_star_missing": false,
-      "observed_kbtu": 11179203.0,
-      "features": {
-        "OSEBuildingID": 19,
-        "BuildingType": "NonResidential",
-        "PrimaryPropertyType": "Hotel",
-        "CouncilDistrictCode": 7,
-        "Latitude": 47.60755,
-        "Longitude": -122.33244,
-        "NumberofBuildings": 1.0,
-        "NumberofFloors": 11,
-        "PropertyGFABuilding(s)": 66990,
-        "ENERGYSTARScore": 35.0,
         "NumberofPropertyUseTypes": 2,
-        "PropertyAge": 94,
-        "BuildingsProportion": 0.7266514806378133,
-        "ElecProportion": 0.3564991268147251,
-        "SteamProportion": 0.4531016926078065,
-        "NaturalGasProportion": 0.1903991805774683
+        "PropertyAge": 51,
+        "BuildingsProportion": 1.0,
+        "ElecProportion": 0.6629762149162683,
+        "SteamProportion": 0.0,
+        "NaturalGasProportion": 0.3370237850837317
+      }
+    },
+    {
+      "label": "Cas représentatif",
+      "description": "Small- and Mid-Sized Office · 4 140 m² · écart +30%",
+      "source_energy_star_missing": false,
+      "observed_kbtu": 1722053.0,
+      "relative_error": 0.2958394194882392,
+      "features": {
+        "OSEBuildingID": 244,
+        "BuildingType": "NonResidential",
+        "PrimaryPropertyType": "Small- and Mid-Sized Office",
+        "CouncilDistrictCode": 7,
+        "Latitude": 47.60105,
+        "Longitude": -122.33518,
+        "NumberofBuildings": 1.0,
+        "NumberofFloors": 3,
+        "PropertyGFABuilding(s)": 44558,
+        "ENERGYSTARScore": 78.0,
+        "NumberofPropertyUseTypes": 3,
+        "PropertyAge": 116,
+        "BuildingsProportion": 1.0,
+        "ElecProportion": 0.7857098560407203,
+        "SteamProportion": 0.0,
+        "NaturalGasProportion": 0.2142901439592797
+      }
+    },
+    {
+      "label": "Cas difficile",
+      "description": "Other · 3 534 m² · écart +97%",
+      "source_energy_star_missing": true,
+      "observed_kbtu": 1255324.0,
+      "relative_error": 0.9707792425842349,
+      "features": {
+        "OSEBuildingID": 21366,
+        "BuildingType": "NonResidential",
+        "PrimaryPropertyType": "Other",
+        "CouncilDistrictCode": 7,
+        "Latitude": 47.60901,
+        "Longitude": -122.32994,
+        "NumberofBuildings": 1.0,
+        "NumberofFloors": 3,
+        "PropertyGFABuilding(s)": 38038,
+        "ENERGYSTARScore": 71.0,
+        "NumberofPropertyUseTypes": 3,
+        "PropertyAge": 100,
+        "BuildingsProportion": 1.0,
+        "ElecProportion": 0.3840391947687627,
+        "SteamProportion": 0.6159608052312373,
+        "NaturalGasProportion": 0.0
       }
     }
-  ]
+  ],
+  "profile_selection": "Erreur relative absolue du modèle avec ENERGY STAR : minimum, médiane et 90e percentile du jeu de test."
 }

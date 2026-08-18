@@ -10,6 +10,10 @@ class InferenceTests(unittest.TestCase):
 
     def test_three_demo_profiles_are_available(self):
         self.assertEqual(len(self.metadata["profiles"]), 3)
+        self.assertEqual(
+            [profile["label"] for profile in self.metadata["profiles"]],
+            ["Cas bien prédit", "Cas représentatif", "Cas difficile"],
+        )
 
     def test_prediction_is_positive_and_deterministic(self):
         profile = self.metadata["profiles"][0]

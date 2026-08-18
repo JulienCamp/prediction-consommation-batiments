@@ -67,6 +67,22 @@ without_score_model, with_score_model, metadata = cached_artifacts()
 profiles = metadata["profiles"]
 demo_metrics = metadata["metrics"]["with_energy_star"]
 
+PROFILE_EXPLANATIONS = {
+    "Cas bien prédit": (
+        "Ici, les caractéristiques disponibles suffisent à placer le bâtiment très près de sa mesure. "
+        "Cela montre ce que le modèle peut produire lorsque le cas ressemble bien aux situations apprises."
+    ),
+    "Cas représentatif": (
+        "Cet écart est proche de l'erreur relative médiane du jeu de test : il illustre donc mieux la "
+        "précision que l'on peut attendre sur un bâtiment ordinaire qu'un cas presque parfait."
+    ),
+    "Cas difficile": (
+        "Le modèle ne connaît ni l'occupation réelle, ni les horaires, les équipements ou les rénovations. "
+        "Une configuration atypique sur ces facteurs invisibles peut donc s'éloigner fortement des profils "
+        "appris. C'est une explication plausible de l'écart, pas un diagnostic certain de ce bâtiment."
+    ),
+}
+
 st.title("Anticiper la consommation d'un bâtiment")
 st.write(
     "Explorez l'estimation d'un modèle entraîné sur les données publiques 2016 de Seattle, "
@@ -112,8 +128,8 @@ with st.sidebar:
 if mode == "Explorer des exemples":
     st.subheader("Explorer des bâtiments observés", anchor=False)
     st.caption(
-        "Ces trois bâtiments appartiennent au jeu de test. Leurs caractéristiques sont fixes, "
-        "ce qui permet de comparer honnêtement les estimations à la mesure de 2016."
+        "Ces trois bâtiments appartiennent au jeu de test et illustrent une erreur faible, médiane "
+        "ou élevée. Leurs caractéristiques sont fixes pour préserver une comparaison honnête."
     )
     profile = st.selectbox(
         "Bâtiment exemple",
@@ -121,6 +137,7 @@ if mode == "Explorer des exemples":
         format_func=lambda item: f"{item['label']} — {item['description']}",
         key="example_profile",
     )
+    st.caption(metadata["profile_selection"])
     features = profile["features"]
     predictions = predict_scenario(
         without_score_model, with_score_model, build_scenario(profile, {})
@@ -167,9 +184,10 @@ if mode == "Explorer des exemples":
             st.caption(f"Pour cet exemple, l'estimation avec score s'écarte de la mesure de {error:+.1%}.")
         with st.container(border=True):
             st.subheader("Comment lire cet exemple ?", anchor=False)
-            st.write(
-                "L'écart montre qu'une prédiction individuelle peut être imparfaite, même lorsque "
-                "le modèle améliore les résultats en moyenne sur le jeu de test."
+            st.write(PROFILE_EXPLANATIONS[profile["label"]])
+            st.caption(
+                "Le modèle résume des tendances moyennes : une bonne performance globale ne garantit "
+                "jamais une estimation précise pour chaque bâtiment."
             )
 
 else:

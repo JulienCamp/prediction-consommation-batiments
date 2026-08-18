@@ -1,4 +1,4 @@
-"""Entraîne les deux modèles et exporte trois profils de démonstration."""
+"""Entraîne les deux modèles et exporte trois niveaux d'erreur démonstratifs."""
 
 from __future__ import annotations
 
@@ -59,16 +59,27 @@ def main() -> None:
         results[key] = metrics(y_test, predictions)
         joblib.dump(model, ARTIFACTS / f"{key}.joblib", compress=3)
 
-    quantiles = [("Petit bâtiment", 0.20), ("Bâtiment intermédiaire", 0.50), ("Grand bâtiment énergivore", 0.85)]
-    available = y_test.copy()
+    energy_star_median = float(X_train["ENERGYSTARScore"].median())
+    demo_X_test = X_test.copy()
+    demo_X_test["ENERGYSTARScore"] = demo_X_test["ENERGYSTARScore"].fillna(energy_star_median)
+    with_predictions = pd.Series(
+        np.maximum(np.expm1(models["with_energy_star"].predict(demo_X_test)), 0),
+        index=y_test.index,
+    )
+    relative_errors = ((with_predictions - y_test) / y_test).abs()
+    error_levels = [
+        ("Cas bien prédit", 0.00),
+        ("Cas représentatif", 0.50),
+        ("Cas difficile", 0.90),
+    ]
+    available = relative_errors.copy()
     chosen = []
-    for label, quantile in quantiles:
-        target_value = float(y_test.quantile(quantile))
+    for label, quantile in error_levels:
+        target_value = float(relative_errors.quantile(quantile))
         index = (available - target_value).abs().idxmin()
         chosen.append((label, index))
         available = available.drop(index)
 
-    energy_star_median = float(X_train["ENERGYSTARScore"].median())
     profiles = []
     for label, index in chosen:
         row = X_test.loc[index].copy()
@@ -76,12 +87,19 @@ def main() -> None:
         if score_was_missing:
             row["ENERGYSTARScore"] = energy_star_median
         record = {column: json_value(value) for column, value in row.items()}
+        signed_error = float((with_predictions.loc[index] - y_test.loc[index]) / y_test.loc[index])
+        display_error = 0.0 if abs(signed_error) < 0.005 else signed_error
+        surface_sqm = round(float(record["PropertyGFABuilding(s)"]) / 10.7639104167)
         profiles.append(
             {
                 "label": label,
-                "description": f"{record['PrimaryPropertyType']} · {int(record['PropertyGFABuilding(s)']):,} pi²".replace(",", " "),
+                "description": (
+                    f"{record['PrimaryPropertyType']} · {surface_sqm:,} m² · écart {display_error:+.0%}"
+                    .replace(",", " ")
+                ),
                 "source_energy_star_missing": bool(score_was_missing),
                 "observed_kbtu": float(y_test.loc[index]),
+                "relative_error": signed_error,
                 "features": record,
             }
         )
@@ -106,6 +124,9 @@ def main() -> None:
             "property_types": sorted(X_train["PrimaryPropertyType"].dropna().unique().tolist()),
         },
         "profiles": profiles,
+        "profile_selection": (
+            "Erreur relative absolue du modèle avec ENERGY STAR : minimum, médiane et 90e percentile du jeu de test."
+        ),
     }
     (ARTIFACTS / "demo_metadata.json").write_text(
         json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8"
