@@ -1,0 +1,133 @@
+{
+  "training": {
+    "rows": 1535,
+    "train_rows": 1074,
+    "test_rows": 461,
+    "split": "70/30, random_state=37, stratification par BuildingType",
+    "target": "SiteEnergyUseWN(kBtu)",
+    "n_estimators": 300
+  },
+  "metrics": {
+    "without_energy_star": {
+      "r2": 0.4695438393276776,
+      "mae_kbtu": 3574206.344169549,
+      "rmse_kbtu": 15109110.86248888,
+      "median_absolute_error_kbtu": 946905.2476666654
+    },
+    "with_energy_star": {
+      "r2": 0.5153650270679839,
+      "mae_kbtu": 3298828.9483591192,
+      "rmse_kbtu": 14441806.926051542,
+      "median_absolute_error_kbtu": 835483.8446583406
+    }
+  },
+  "benchmarks_kbtu": {
+    "q25": 1321763.125,
+    "median": 2912179.5,
+    "q75": 7067881.5
+  },
+  "categories": {
+    "building_types": [
+      "Campus",
+      "NonResidential",
+      "Nonresidential COS",
+      "SPS-District K-12"
+    ],
+    "property_types": [
+      "Distribution Center",
+      "Hospital",
+      "Hotel",
+      "K-12 School",
+      "Laboratory",
+      "Large Office",
+      "Medical Office",
+      "Mixed Use Property",
+      "Other",
+      "Refrigerated Warehouse",
+      "Residence Hall",
+      "Restaurant",
+      "Retail Store",
+      "Self-Storage Facility",
+      "Senior Care Community",
+      "Small- and Mid-Sized Office",
+      "Supermarket / Grocery Store",
+      "University",
+      "Warehouse",
+      "Worship Facility"
+    ]
+  },
+  "profiles": [
+    {
+      "label": "Petit bâtiment",
+      "description": "Other · 30 160 pi²",
+      "source_energy_star_missing": true,
+      "observed_kbtu": 1184385.875,
+      "features": {
+        "OSEBuildingID": 23343,
+        "BuildingType": "NonResidential",
+        "PrimaryPropertyType": "Other",
+        "CouncilDistrictCode": 5,
+        "Latitude": 47.72083,
+        "Longitude": -122.29979,
+        "NumberofBuildings": 1.0,
+        "NumberofFloors": 1,
+        "PropertyGFABuilding(s)": 30160,
+        "ENERGYSTARScore": 71.0,
+        "NumberofPropertyUseTypes": 1,
+        "PropertyAge": 47,
+        "BuildingsProportion": 1.0,
+        "ElecProportion": 0.233876565969108,
+        "SteamProportion": 0.0,
+        "NaturalGasProportion": 0.766123434030892
+      }
+    },
+    {
+      "label": "Bâtiment intermédiaire",
+      "description": "Retail Store · 45 271 pi²",
+      "source_energy_star_missing": false,
+      "observed_kbtu": 2912179.5,
+      "features": {
+        "OSEBuildingID": 21397,
+        "BuildingType": "NonResidential",
+        "PrimaryPropertyType": "Retail Store",
+        "CouncilDistrictCode": 7,
+        "Latitude": 47.62399,
+        "Longitude": -122.33804,
+        "NumberofBuildings": 1.0,
+        "NumberofFloors": 2,
+        "PropertyGFABuilding(s)": 45271,
+        "ENERGYSTARScore": 57.0,
+        "NumberofPropertyUseTypes": 1,
+        "PropertyAge": 52,
+        "BuildingsProportion": 1.0,
+        "ElecProportion": 0.4490835680523212,
+        "SteamProportion": 0.0,
+        "NaturalGasProportion": 0.5509164319476788
+      }
+    },
+    {
+      "label": "Grand bâtiment énergivore",
+      "description": "Hotel · 66 990 pi²",
+      "source_energy_star_missing": false,
+      "observed_kbtu": 11179203.0,
+      "features": {
+        "OSEBuildingID": 19,
+        "BuildingType": "NonResidential",
+        "PrimaryPropertyType": "Hotel",
+        "CouncilDistrictCode": 7,
+        "Latitude": 47.60755,
+        "Longitude": -122.33244,
+        "NumberofBuildings": 1.0,
+        "NumberofFloors": 11,
+        "PropertyGFABuilding(s)": 66990,
+        "ENERGYSTARScore": 35.0,
+        "NumberofPropertyUseTypes": 2,
+        "PropertyAge": 94,
+        "BuildingsProportion": 0.7266514806378133,
+        "ElecProportion": 0.3564991268147251,
+        "SteamProportion": 0.4531016926078065,
+        "NaturalGasProportion": 0.1903991805774683
+      }
+    }
+  ]
+}
