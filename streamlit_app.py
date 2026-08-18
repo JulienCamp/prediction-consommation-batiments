@@ -12,6 +12,8 @@ from modeling import KBTU_TO_MWH
 
 st.set_page_config(page_title="Consommation des bâtiments", page_icon=":material/energy_savings_leaf:", layout="wide")
 
+SQFT_PER_SQM = 10.7639104167
+
 
 @st.cache_resource
 def cached_artifacts():
@@ -20,6 +22,10 @@ def cached_artifacts():
 
 def mwh(kbtu: float) -> float:
     return kbtu * KBTU_TO_MWH
+
+
+def sqm(square_feet: float) -> float:
+    return square_feet / SQFT_PER_SQM
 
 
 def energy_label(kbtu: float) -> str:
@@ -130,7 +136,8 @@ if mode == "Explorer des exemples":
             st.metric("Usage principal", features["PrimaryPropertyType"])
             st.metric("Type de bâtiment", features["BuildingType"])
             with st.container(horizontal=True):
-                st.metric("Surface", f"{int(features['PropertyGFABuilding(s)']):,} pi²".replace(",", " "), border=True)
+                surface_sqm = round(sqm(features["PropertyGFABuilding(s)"]))
+                st.metric("Surface", f"{surface_sqm:,} m²".replace(",", " "), border=True)
                 st.metric("Âge", f"{int(features['PropertyAge'])} ans", border=True)
                 st.metric("Étages", f"{max(1, int(features['NumberofFloors']))}", border=True)
             with st.container(horizontal=True):
@@ -179,9 +186,9 @@ else:
             st.subheader("Décrire le scénario", anchor=False)
             st.caption("Les valeurs initiales constituent un exemple médian modifiable.")
             with st.form("custom_scenario"):
-                surface = st.number_input(
-                    "Surface du bâtiment (pi²)", 1_000, 2_000_000,
-                    int(features["PropertyGFABuilding(s)"]), 5_000, key="custom_surface"
+                surface_sqm = st.number_input(
+                    "Surface du bâtiment (m²)", 100, 185_000,
+                    round(sqm(features["PropertyGFABuilding(s)"])), 500, key="custom_surface"
                 )
                 property_type = st.selectbox(
                     "Usage principal", metadata["categories"]["property_types"],
@@ -214,7 +221,8 @@ else:
                 st.form_submit_button("Estimer la consommation", type="primary", icon=":material/bolt:")
 
     updates = {
-        "PropertyGFABuilding(s)": surface,
+        # Le modèle reste alimenté dans l'unité d'origine du jeu de données de Seattle.
+        "PropertyGFABuilding(s)": surface_sqm * SQFT_PER_SQM,
         "PrimaryPropertyType": property_type,
         "BuildingType": building_type,
         "PropertyAge": age,
