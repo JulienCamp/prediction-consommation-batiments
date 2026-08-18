@@ -189,7 +189,13 @@ if mode == "Explorer des exemples":
             st.caption(f"Pour cet exemple, l'estimation avec score s'écarte de la mesure de {error:+.1%}.")
         with st.container(border=True):
             st.subheader("Comment lire cet exemple ?", anchor=False)
-            st.write(PROFILE_EXPLANATIONS[profile["label"]])
+            st.write(
+                PROFILE_EXPLANATIONS.get(
+                    profile["label"],
+                    "Cet écart rappelle qu'une prédiction individuelle peut rester imparfaite, notamment "
+                    "lorsque des facteurs propres au bâtiment ne figurent pas dans les données du modèle.",
+                )
+            )
             st.caption(
                 "Le modèle résume des tendances moyennes : une bonne performance globale ne garantit "
                 "jamais une estimation précise pour chaque bâtiment."
