@@ -137,7 +137,12 @@ if mode == "Explorer des exemples":
         format_func=lambda item: f"{item['label']} — {item['description']}",
         key="example_profile",
     )
-    st.caption(metadata["profile_selection"])
+    st.caption(
+        metadata.get(
+            "profile_selection",
+            "Trois niveaux d'erreur du modèle sont présentés : faible, médian et élevé.",
+        )
+    )
     features = profile["features"]
     predictions = predict_scenario(
         without_score_model, with_score_model, build_scenario(profile, {})
